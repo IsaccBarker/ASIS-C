@@ -106,5 +106,8 @@ Temporary Items
 # Custom ASIS-C binary files.
 *.asisc
 
+# Host binaries
+target/
+
 # End of https://www.toptal.com/developers/gitignore/api/c,linux,macos
 
