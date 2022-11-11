@@ -68,8 +68,6 @@ void print_instructions(struct vm* vm) {
 
 int push_stack(struct vm* vm, STACK_DATATYPE value) {
     if (vm->stack_len > vm->stack_max) {
-        printf("%d > %d\n", vm->stack_len, vm->stack_max);
-        print_stack(vm);
         vm->stack = realloc(vm->stack, vm->stack_max*2);
         vm->stack_max *= 2;
 
