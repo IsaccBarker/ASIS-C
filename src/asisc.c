@@ -11,6 +11,10 @@
 #define STARTING_STACK_SIZE 4096
 #endif /* STARTING_STACK_SIZE */
 
+#ifndef STACK_DATATYPE
+#define STACK_DATATYPE uint32_t
+#endif /* STACK_DATATYPE */
+
 #define NOP     0x0000
 #define ADD     0x0001
 #define SUB     0x0002
@@ -32,7 +36,7 @@ struct vm {
     size_t stack_ptr;
     size_t stack_len;
     size_t stack_max;
-    uint8_t* stack;
+    STACK_DATATYPE* stack;
 
     size_t instruction_ptr;
     size_t num_instructions;
@@ -47,7 +51,7 @@ void print_usage(void) {
 }
 
 void print_stack(struct vm* vm) {
-    for (int i = 0; i < vm->stack_len; i++) {
+    for (size_t i = 0; i < vm->stack_len; i++) {
         printf("0x%x, ", vm->stack[i]);
     }
 
@@ -55,14 +59,14 @@ void print_stack(struct vm* vm) {
 }
 
 void print_instructions(struct vm* vm) {
-    for (int i = 0; i < vm->num_instructions; i++) {
+    for (size_t i = 0; i < vm->num_instructions; i++) {
         printf("0x%x, ", vm->instruction_buffer[i]);
     }
 
     printf("\n");
 }
 
-int push_stack(struct vm* vm, uint8_t value) {
+int push_stack(struct vm* vm, STACK_DATATYPE value) {
     if (vm->stack_len > vm->stack_max) {
         vm->stack = realloc(vm->stack, vm->stack_max*2);
         vm->stack_max *= 2;
