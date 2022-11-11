@@ -46,6 +46,22 @@ The first three lines are for loading in the string, printing the string, and th
 string off the stack. The rest is for reading from standard input, adding the numbers, and then
 printing the resulting number.
 
+Run it with `asisc examples/add.asisc` and you'll see:
+
+```
+Allocating 49 bytes for instruction buffer...
+Allocating 4096 bytes for stack buffer...
+Loading binary...
+Running machine code!
+> Specify two numbers to add together!
+> 5
+> 5
+> 10 (0xa)
+Cleaning up...
+```
+
+Woohoo!
+
 ## Authors
 Milo Banks
 
