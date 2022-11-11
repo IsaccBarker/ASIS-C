@@ -48,7 +48,7 @@ saying).
 | JMP      | 0x000C (12) | Jump unconditionally to address at top of stack. | None. |
 | PNT      | 0x000D (13) | Print to host's stdout. | Negative stack offset to print from. |
 | RED      | 0x000E (14) | Read value from host's stdin and push it onto the stack. | None. |
-| RET      | 0x000F (15) | Return to VM. | None. |
+| DUP      | 0x000F (15) | Duplicate the top of the stack. | None. |
 
 ## Undefined behaviour
 Anything else is undefined behaviour. Suck it.

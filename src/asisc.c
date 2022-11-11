@@ -30,7 +30,7 @@
 #define JMP     0x000C
 #define PNT     0x000D
 #define RED     0x000E
-#define RET     0x000F
+#define DUP     0x000F
 
 struct vm {
     size_t stack_ptr;
@@ -105,7 +105,6 @@ _Bool suitable_for_arith(struct vm* vm) {
 int run_machine_code(struct vm* vm) {
     while (1) {
         _Bool increment_instruction_ptr = 1;
-        _Bool exit = 0;
 
         if (vm->instruction_ptr == vm->num_instructions)
             break;
@@ -269,9 +268,9 @@ int run_machine_code(struct vm* vm) {
 
             break;
         }
-        case RET:
-            printf("Returning early!\n");
-            exit = 1;
+        case DUP:
+            if (push_stack(vm, vm->stack[vm->stack_ptr-1]))
+                return EXIT_FAILURE;
 
             break;
         default:
@@ -282,9 +281,6 @@ int run_machine_code(struct vm* vm) {
 
         if (increment_instruction_ptr)
             vm->instruction_ptr++;
-
-        if (exit)
-            break;
     }
 
     return EXIT_SUCCESS;
