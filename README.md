@@ -53,10 +53,10 @@ Allocating 49 bytes for instruction buffer...
 Allocating 4096 bytes for stack buffer...
 Loading binary...
 Running machine code!
-> Specify two numbers to add together!
-> 5
-> 5
-> 10 (0xa)
+(OUT) > Specify two numbers to add together!
+(IN ) > 5
+(IN ) > 5
+(OUT) > 10 (0xa)
 Cleaning up...
 ```
 

@@ -203,12 +203,12 @@ int run_machine_code(struct vm* vm) {
             if (stack_offset == 1) {
                 // Trying to print a non-control character?
                 if (vm->stack[stack_offset] > 31 && vm->stack[stack_offset] != 127) {
-                    printf("> %c\n", vm->stack[start_at]);
+                    printf("\033[1;30m(OUT)\033[0m > %c\n", vm->stack[start_at]);
                 } else {
-                    printf("> %d (0x%x)\n", vm->stack[start_at], vm->stack[start_at]);
+                    printf("\033[1;30m(OUT)\033[0m > %d (0x%x)\n", vm->stack[start_at], vm->stack[start_at]);
                 }
             } else {
-                printf("> ");
+                printf("\033[1;30m(OUT)\033[0m > ");
                 for (size_t i = start_at; i < vm->stack_len; i++) {
                     printf("%c", vm->stack[i]);
                 }
@@ -224,7 +224,7 @@ int run_machine_code(struct vm* vm) {
             char buf[5];
             int in;
 
-            printf("> ");
+            printf("\033[1;30m(IN )\033[0m > ");
             fflush(stdout);
             read(STDIN_FILENO, buf, 3);
             buf[4] = '\0';
