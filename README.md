@@ -30,7 +30,8 @@ Below is an example for adding two numbers from user input.
 00000030: 01                                       .
 ```
 
-Woops! That's the binary format. This is the actual ASIS-C notation:
+Woops! That's the binary format. This is the actual ASIS-C notation (the indentation doens't matter
+but there must be spaces inbetween the byte-aligned elements):
 
 ```
 A 26 53 70 65 63 69 66 79 20 74 77 6f 20 6e 75 6d 62 65 72 73 20 74 6f 20 61 64 64 20 74 6f 67 65 74 68 65 72 21 0 0
