@@ -44,10 +44,11 @@ saying).
 | GRT      | 0x0008 (8)  | Check if the top stack element is greater than the second top. | None. |
 | POP      | 0x0009 (9)  | Pop value(s) off stack. | Number of values to pop. |
 | PUSH     | 0x000A (10) | Push value onto stack. | How many values you wish to push, the value(s) you wish to push. |
-| JMP      | 0x000B (11) | Jump to address at top of stack if comparison is true. | None. |
-| PNT      | 0x000C (12) | Print to host's stdout. | Negative stack offset to print from. |
-| RED      | 0x000D (13) | Read value from host's stdin and push it onto the stack. | None. |
-| RET      | 0x000E (14) | Return to VM. | None. |
+| JMPIF    | 0x000B (11) | Jump to address at top of stack if comparison is true. | None. |
+| JMP      | 0x000C (12) | Jump unconditionally to address at top of stack. | None. |
+| PNT      | 0x000D (13) | Print to host's stdout. | Negative stack offset to print from. |
+| RED      | 0x000E (14) | Read value from host's stdin and push it onto the stack. | None. |
+| RET      | 0x000F (15) | Return to VM. | None. |
 
 ## Undefined behaviour
 Anything else is undefined behaviour. Suck it.

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <stdarg.h>
 #include <unistd.h>
 #include <string.h>
 #include <limits.h>
@@ -10,21 +11,22 @@
 #define STARTING_STACK_SIZE 4096
 #endif /* STARTING_STACK_SIZE */
 
-#define NOP  0x0000
-#define ADD  0x0001
-#define SUB  0x0002
-#define MUL  0x0003
-#define DIV  0x0004
-#define PUS  0x0005
-#define POS  0x0006
-#define EQU  0x0007
-#define GRT  0x0008
-#define POP  0x0009
-#define PUSH 0x000A
-#define JMP  0x000B
-#define PNT  0x000C
-#define RED  0x000D
-#define RET  0x000E
+#define NOP     0x0000
+#define ADD     0x0001
+#define SUB     0x0002
+#define MUL     0x0003
+#define DIV     0x0004
+#define PUS     0x0005
+#define POS     0x0006
+#define EQU     0x0007
+#define GRT     0x0008
+#define POP     0x0009
+#define PUSH    0x000A
+#define JMPIF   0x000B
+#define JMP     0x000C
+#define PNT     0x000D
+#define RED     0x000E
+#define RET     0x000F
 
 struct vm {
     size_t stack_ptr;
@@ -42,6 +44,22 @@ struct vm {
 
 void print_usage(void) {
     printf("asisc <raw machine code>\n");
+}
+
+void print_stack(struct vm* vm) {
+    for (int i = 0; i < vm->stack_len; i++) {
+        printf("0x%x, ", vm->stack[i]);
+    }
+
+    printf("\n");
+}
+
+void print_instructions(struct vm* vm) {
+    for (int i = 0; i < vm->num_instructions; i++) {
+        printf("0x%x, ", vm->instruction_buffer[i]);
+    }
+
+    printf("\n");
 }
 
 int push_stack(struct vm* vm, uint8_t value) {
@@ -71,7 +89,9 @@ void pop_stack(struct vm* vm) {
 
 _Bool suitable_for_arith(struct vm* vm) {
     if (vm->stack_len < 1) {
-        fprintf(stderr, "Machine state incompatable with arithmetic.\n");
+        fprintf(stderr, "Machine state incompatable with arithmetic (stack length=%zu).\n",
+                vm->stack_len);
+
         return 0;
     }
 
@@ -104,7 +124,7 @@ int run_machine_code(struct vm* vm) {
             int addendA = vm->stack[vm->stack_ptr-1];
             int addendB = vm->stack[vm->stack_ptr-2];
             if (push_stack(vm, addendA + addendB))
-                    return EXIT_FAILURE;
+                return EXIT_FAILURE;
 
             break;
         case SUB:
@@ -176,15 +196,25 @@ int run_machine_code(struct vm* vm) {
         case PUSH: {
             int num_values = vm->instruction_buffer[vm->instruction_ptr+1];
 
-            for (int i = 2; i < num_values; i++) {
-                if (push_stack(vm, vm->instruction_buffer[vm->instruction_ptr+i]))
+            if (num_values == 1) {
+                if (push_stack(vm, vm->instruction_buffer[vm->instruction_ptr+2]))
                     return EXIT_FAILURE;
+            } else {
+                for (int i = 2; i < num_values; i++) {
+                    if (push_stack(vm, vm->instruction_buffer[vm->instruction_ptr+i]))
+                        return EXIT_FAILURE;
+                }
             }
 
             vm->instruction_ptr += 1 + num_values;
 
             break;
         }
+        case JMPIF:
+            if (vm->compare_status)
+                vm->instruction_ptr = vm->stack[vm->stack_ptr-1];
+
+            break;
         case JMP:
             vm->instruction_ptr = vm->stack[vm->stack_ptr-1];
 
