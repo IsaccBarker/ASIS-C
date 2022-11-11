@@ -7,6 +7,8 @@ files=$(ls ./*.hwasm)
 for file in $files
 do
     echo "(\"assembling\") $file -> ./$(basename $file .hwasm).asic"
-    perl -ne '@a=split;for(@a){print chr(hex($_))}' $file > $(basename $file .hwasm).asisc
+    awk '{if ($1 != "#") print $0}' $file > $file.processed
+    perl -ne '@a=split;for(@a){print chr(hex($_))}' $file.processed > $(basename $file .hwasm).asisc
+    rm $file.processed
     xxd $(basename $file .hwasm).asisc
 done

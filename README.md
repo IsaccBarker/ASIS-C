@@ -34,18 +34,25 @@ Woops! That's the binary format. This is the actual ASIS-C notation (the indenta
 but there must be spaces inbetween the byte-aligned elements):
 
 ```
+# Load 26 elements in the stack forming the string.
 A 26 53 70 65 63 69 66 79 20 74 77 6f 20 6e 75 6d 62 65 72 73 20 74 6f 20 61 64 64 20 74 6f 67 65 74 68 65 72 21 0 0
+# Print string starting from the stack index 24 elements back.
 C 24
+# Pop 24 elements from the stack.
 9 24
 
+# Get two user inputs
 D D
+# Add the numbers
 1
+# Present the numbers.
 C 1
 ```
 
 The first three lines are for loading in the string, printing the string, and then popping the
 string off the stack. The rest is for reading from standard input, adding the numbers, and then
-printing the resulting number.
+printing the resulting number. And yes, you can start comments with `#`, because of the power of
+`awk`!
 
 Run it with `asisc examples/add.asisc` and you'll see:
 
